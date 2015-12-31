@@ -1,0 +1,63 @@
+package com.example.app;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+
+public class Affichage extends Activity {
+
+	   private String url1 = "http://jsonplaceholder.typicode.com/users/";
+	   private EditText Nom,phone,email,steet,city;
+	   private HandleJSON obj;
+	   @Override
+	   protected void onCreate(Bundle savedInstanceState) {
+	      super.onCreate(savedInstanceState);
+	      setContentView(R.layout.aff);
+	      
+	      setContentView(R.layout.activity_recherche_b);/////////////////
+	      
+	      // je recupère l'id
+	      Intent intent = getIntent();
+	       String message3 = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+	      
+	       
+	       
+	      
+		     String[] tab= new String [5];
+		      
+		     
+		    	 
+		    	   
+			      String finalUrl = url1 + message3;
+			    
+			      obj = new HandleJSON(finalUrl);
+			      obj.fetchJSON();
+			       
+			      while(obj.parsingComplete);
+			     tab[0]=obj.getNom();
+			     tab[1]=obj.getphone();
+			     tab[2]=obj.getemail();
+			     tab[3]=obj.getstreet();
+			     tab[4]=obj.getcity();
+			    
+			   
+			     
+			     //Récuperation de ListView crée 
+				 ListView lv = (ListView)findViewById(R.id.listView1); 
+				 
+				 //créattion d'un ArrayAdapter   
+				 ArrayAdapter arrayadp=new ArrayAdapter(Affichage.this,  android.R.layout.simple_list_item_1, tab);                                       // associer l'adaptateur à la listeView   
+		         lv.setAdapter(arrayadp);   
+		      
+	      
+	    
+	   }
+	   
+
+	 
+	}

@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+/Users/remysarbaji/Documents/APPLI MOBILE/.metadata/.plugins/org.eclipse.jdt.core
+2314149825.index
+2676028949.index
+750817203.index

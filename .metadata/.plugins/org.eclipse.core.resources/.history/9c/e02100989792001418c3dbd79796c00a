@@ -1,0 +1,224 @@
+package com.example.app;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+
+
+
+public class RechercheS extends Activity implements View.OnTouchListener, View.OnClickListener {
+	
+	
+	  protected static final String EXTRA_MESSAGE = null;
+
+
+
+
+
+
+
+	Button envoyer1 = null;
+	 
+	 
+	  
+	 
+
+  
+  
+  EditText critere1 = null;
+  
+ 
+  
+  
+  
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+	  super.onCreate(savedInstanceState);
+	    setContentView(R.layout.activity_recherche_s);
+	    	
+	   
+	    
+	    
+	    new DLTask().execute("http://fabrigli.fr/cours/example.json");
+  
+	    
+	    envoyer1 = (Button)findViewById(R.id.button1); //  XML button1
+	  
+	   critere1 = (EditText)findViewById(R.id.critere1); // XML critere1 
+	   
+	   
+	   envoyer1.setOnClickListener(envoyerListener);  //si on clique
+	   
+	   critere1.addTextChangedListener(textWatcher);  // si on tape
+	  
+	    
+	  
+	
+	   
+  }
+  
+  
+  
+  
+  
+  
+  
+  private class DLTask extends AsyncTask<String, Void, String>{
+      @Override
+      protected String doInBackground(String... urls) {
+          try {
+              return downloadUrl(urls[0]);
+          } catch (IOException e) {
+              return "Unable to retrieve web page. URL may be invalid.";
+          }
+      }
+      @Override
+      protected void onPostExecute(String result) {
+          Toast.makeText(getApplication().getApplicationContext(), result, Toast.LENGTH_LONG).show();
+      }
+  }
+
+  private String downloadUrl(String myurl) throws IOException {
+      InputStream is = null;
+
+      try {
+          URL url = new URL(myurl);
+          HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+          conn.setRequestMethod("GET");
+          conn.connect();
+          int response = conn.getResponseCode();
+          is = conn.getInputStream();
+
+          String contentAsString= readIt(is,500);
+          return contentAsString;
+      } finally {
+          if(is != null) {
+              is.close();
+          }
+      }
+  }
+
+  public String readIt(InputStream stream, int len) throws IOException {
+      Reader reader = null;
+      reader = new InputStreamReader(stream, "UTF-8");
+      char[] buffer = new char[len];
+      reader.read(buffer);
+      return new String(buffer);
+  }
+  
+  
+  
+  private TextWatcher textWatcher = new TextWatcher() {
+
+	    @Override
+	    public void onTextChanged(CharSequence s, int start, int before, int count) {
+	     
+	    }
+			
+	    @Override
+	    public void beforeTextChanged(CharSequence s, int start, int count,
+	      int after) {
+	  
+	    }
+	  
+	    @Override
+	    public void afterTextChanged(Editable s) {
+	  
+	    }
+	  };
+	  
+	  
+	  
+  
+
+	  
+	  
+	// Uniquement pour le bouton "rechercher"
+		  private OnClickListener envoyerListener = new OnClickListener() {
+
+			@Override
+			
+			public void onClick(View v) {
+				
+				
+				
+				 EditText editText = (EditText) findViewById(R.id.critere1);
+				  String message = editText.getText().toString();
+				  
+			
+
+				if (message.equals("")) {
+					 Context context = getApplicationContext();
+					    CharSequence text = "le champ est vide";
+					    int duration = Toast.LENGTH_SHORT;
+
+					    Toast toast = Toast.makeText(context, text, duration);
+					    toast.show();
+					    
+					return;
+				}
+				Intent intent = new Intent(RechercheS.this, ResultatRS.class);
+				intent.putExtra(EXTRA_MESSAGE, message);
+				  startActivity(intent);
+			 
+				
+			}
+			  
+			 
+			
+				
+				
+			   
+		   
+		  };
+		  
+
+	 
+	 
+
+
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}
