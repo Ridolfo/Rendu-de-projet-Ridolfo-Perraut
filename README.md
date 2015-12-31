@@ -1,2 +1,2 @@
 # Rendu-de-projet-Ridolfo-Perraut
-Rendu de projet mobile
+Rendu de projet mobile de Ridolfo et Perraut
